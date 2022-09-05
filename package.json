@@ -1,0 +1,25 @@
+{
+  "name": "learning_firebase",
+  "version": "1.0.0",
+  "description": "firebase is also known as backend service that can be used for database, authentication, cloudfunction and hosting and we can plug those to the frontend.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nwabuezenonso/learning-firebase.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nwabuezenonso/learning-firebase/issues"
+  },
+  "homepage": "https://github.com/nwabuezenonso/learning-firebase#readme",
+  "devDependencies": {
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
