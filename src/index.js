@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, onSnapshot, query, where ,
-    addDoc, deleteDoc, doc, orderBy, serverTimestamp} from 'firebase/firestore'; 
+    addDoc, deleteDoc, doc, orderBy, serverTimestamp, getDoc} from 'firebase/firestore'; 
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -64,3 +64,10 @@ deleteBookForm.addEventListener('submit', (e) => {
             deleteBookForm.reset();
         })
 });
+
+// get a single document
+const docRef = doc(db, 'Books', "NbZhrc6cvUWQ8Myejz0M");
+
+onSnapshot(docRef, (doc) =>{  // get a single documenton realtime
+    console.log(doc.data(), doc.id)
+})
