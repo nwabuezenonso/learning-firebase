@@ -1,12 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore'; 
-// import dotenv from 'dotenv';
+import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc} from 'firebase/firestore'; 
+import dotenv from 'dotenv';
 
-// dotenv.config();
+dotenv.config();
 
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAu-4Iy2YHFActWdNusc4JzAU3ZTWk5Myc",
+    apiKey: process.env.APIKEY,
     authDomain: "learn-firebase-5e508.firebaseapp.com",
     projectId: "learn-firebase-5e508",
     storageBucket: "learn-firebase-5e508.appspot.com",
@@ -24,20 +24,14 @@ const db = getFirestore();
 // collection ref ( get a reference to a specific collection)
 const colRef = collection(db, 'Books');
 
-// get collection data
-
-getDocs(colRef)   //the data returns a promise(performs a function once data is complete or not)
-    .then((snapshot) => {    // function that contain a snapshot of our documents
-        let books = [];
-        snapshot.docs.forEach((doc) => {
-            books.push({...doc.data(), id: doc.id})  // spread allow us expand an array and take a copy of an existing array
-        })
-
-        console.log(books)
+// real time collection data
+onSnapshot(colRef, (snapshot) => {  //allow us to collect data in real time
+    let books = [];
+    snapshot.docs.forEach((doc) => {
+        books.push({...doc.data(), id: doc.id})  // spread allow us expand an array and take a copy of an existing array
     })
-    .catch(err => {
-        console.log(err.message)
-    });
+    console.log(books)
+})
 
 
 // adding documents
