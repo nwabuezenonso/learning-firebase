@@ -1,12 +1,12 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, getDocs} from 'firebase/firestore'; 
-import dotenv from 'dotenv';
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc} from 'firebase/firestore'; 
+// import dotenv from 'dotenv';
 
-dotenv.config();
+// dotenv.config();
 
 
 const firebaseConfig = {
-    apiKey: process.env.APIKEY,
+    apiKey: "AIzaSyAu-4Iy2YHFActWdNusc4JzAU3ZTWk5Myc",
     authDomain: "learn-firebase-5e508.firebaseapp.com",
     projectId: "learn-firebase-5e508",
     storageBucket: "learn-firebase-5e508.appspot.com",
@@ -37,4 +37,32 @@ getDocs(colRef)   //the data returns a promise(performs a function once data is 
     })
     .catch(err => {
         console.log(err.message)
+    });
+
+
+// adding documents
+const addBookForm = document.querySelector('.add');
+addBookForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    addDoc(colRef, {
+        title: addBookForm.title.value,
+        author: addBookForm.author.value
     })
+    .then(() => {
+        addBookForm.reset();
+    })
+});
+
+// deleting documents
+const deleteBookForm = document.querySelector('.delete');
+deleteBookForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const docRef = doc(db, 'Books', deleteBookForm.id.value);  // we make use of doc to specify the document we want to delete
+    
+    deleteDoc(docRef)
+        .then(() => {
+            deleteBookForm.reset();
+        })
+});
