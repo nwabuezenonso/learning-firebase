@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, onSnapshot, addDoc, deleteDoc, doc} from 'firebase/firestore'; 
+import { getFirestore, collection, onSnapshot, query, where ,addDoc, deleteDoc, doc} from 'firebase/firestore'; 
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -24,13 +24,16 @@ const db = getFirestore();
 // collection ref ( get a reference to a specific collection)
 const colRef = collection(db, 'Books');
 
+// queries
+const q = query(colRef, where("author", "==", "pacman")); //to get specific element, we use where and query
+
 // real time collection data
-onSnapshot(colRef, (snapshot) => {  //allow us to collect data in real time
+onSnapshot(q, (snapshot) => {  //allow us to collect data in real time
     let books = [];
     snapshot.docs.forEach((doc) => {
         books.push({...doc.data(), id: doc.id})  // spread allow us expand an array and take a copy of an existing array
-    })
-    console.log(books)
+    });
+    console.log(books);
 })
 
 
