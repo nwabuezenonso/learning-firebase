@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, onSnapshot, query, where ,
-    addDoc, deleteDoc, doc, orderBy, serverTimestamp, getDoc} from 'firebase/firestore'; 
+    addDoc, deleteDoc, doc, orderBy, serverTimestamp, getDoc, updateDoc} from 'firebase/firestore'; 
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -70,4 +70,19 @@ const docRef = doc(db, 'Books', "NbZhrc6cvUWQ8Myejz0M");
 
 onSnapshot(docRef, (doc) =>{  // get a single documenton realtime
     console.log(doc.data(), doc.id)
+})
+
+// updating a document
+const updateForm = document.querySelector('.update');
+updateForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const docRef = doc(db, 'Books', updateForm.id.value);
+    
+    updateDoc(docRef, {
+        title: 'updated title',
+    })
+    .then(() => {
+        updateForm.reset();
+    })
 })
