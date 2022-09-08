@@ -1,12 +1,12 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, onSnapshot, query, where, addDoc, deleteDoc, doc, orderBy, serverTimestamp, getDoc, updateDoc} from 'firebase/firestore'; 
-import { getAuth} from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 // import dotenv from 'dotenv';
 
 // dotenv.config();
 
 const firebaseConfig = {
-    apiKey: process.env.APIKEY,
+    apiKey: "AIzaSyAu-4Iy2YHFActWdNusc4JzAU3ZTWk5Myc",
     authDomain: "learn-firebase-5e508.firebaseapp.com",
     projectId: "learn-firebase-5e508",
     storageBucket: "learn-firebase-5e508.appspot.com",
@@ -89,5 +89,23 @@ updateForm.addEventListener('submit', (e) => {
 
 
 
-// firebase authentication
+// signing users up
+const signupForm = document.querySelector('.signup');
+signupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const email = signupForm.email.value;
+    const password = signupForm.password.value;
+
+    // working with authentication
+    createUserWithEmailAndPassword(auth, email, password)  // initialize the auth password
+        .then((cred) => {
+            console.log('user created', cred.user);
+            signupForm.reset;
+        })
+        .catch((err) => {
+            console.log(err.message);
+        })
+
+})
 
