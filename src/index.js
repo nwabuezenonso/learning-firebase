@@ -144,9 +144,11 @@ const unSubAuth = onAuthStateChanged(auth, (user) =>{  //when you login or logou
 
 
 // unsubscribe from subscrition (to unsubscribe from a lot of subscription)
+// it is a good practice when ever you don't need those subscription anymore
 const unsubbutton = document.querySelector('.unsub');
 unsubbutton.addEventListener('click', ()=>{
     console.log('unsubcribing');
+    // all we do is to invoke that function and it is registered as an unsubscribe function
     unSubCol();   // return the function(an unsubscribing function)
     unSubAuth();
     unSubDoc();
