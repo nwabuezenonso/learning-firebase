@@ -1,12 +1,12 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, onSnapshot, query, where, addDoc, deleteDoc, doc, orderBy, serverTimestamp, getDoc, updateDoc} from 'firebase/firestore'; 
-import { getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, signOut, signInWithEmailAndPassword, onAuthStateChanged} from 'firebase/auth';
 // import dotenv from 'dotenv';
 
 // dotenv.config();
 
 const firebaseConfig = {
-    apiKey: "AIzaSyAu-4Iy2YHFActWdNusc4JzAU3ZTWk5Myc",
+    apiKey: process.env.APIKEY,
     authDomain: "learn-firebase-5e508.firebaseapp.com",
     projectId: "learn-firebase-5e508",
     storageBucket: "learn-firebase-5e508.appspot.com",
@@ -101,7 +101,7 @@ signupForm.addEventListener('submit', (e) => {
     createUserWithEmailAndPassword(auth, email, password)  // initialize the auth password
         .then((cred) => {
             console.log('user created', cred.user);
-            signupForm.reset;
+            signupForm.reset();
         })
         .catch((err) => {
             console.log(err.message);
@@ -109,3 +109,35 @@ signupForm.addEventListener('submit', (e) => {
 
 })
 
+
+// logging in and out
+const logoutButton = document.querySelector('.logout');
+logoutButton.addEventListener('click', (e)=>{
+    signOut(auth)
+        .then(() =>{
+            console.log("the user signed out")
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
+})
+
+const loginForm = document.querySelector('.login');
+loginForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+
+    signInWithEmailAndPassword(auth, email, password)
+        .then((cred) =>{
+            console.log('user logge in', cred.user);
+        })
+        .catch((err)=> {
+            console.log(err.message)
+        });
+
+})
+
+
+// subscribing to auth changes
+onAuthStateChanged(auth, (user) =>{  //when you login or logout, it fires a function
+    console.log('user status changed:',user)
+})
