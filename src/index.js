@@ -28,7 +28,7 @@ const colRef = collection(db, 'Books');
 const q = query(colRef, orderBy('createdAt') ); //to get specific element, we use where and query
 
 // real time collection data
-onSnapshot(q, (snapshot) => {  //allow us to collect data in real time
+const unSubCol = onSnapshot(q, (snapshot) => {  //allow us to collect data in real time
     let books = [];
     snapshot.docs.forEach((doc) => {
         books.push({...doc.data(), id: doc.id})  // spread allow us expand an array and take a copy of an existing array
@@ -68,7 +68,7 @@ deleteBookForm.addEventListener('submit', (e) => {
 // get a single document
 const docRef = doc(db, 'Books', "NbZhrc6cvUWQ8Myejz0M");
 
-onSnapshot(docRef, (doc) =>{  // get a single documenton realtime
+const unSubDoc = onSnapshot(docRef, (doc) =>{  // get a single documenton realtime
     console.log(doc.data(), doc.id)
 })
 
@@ -128,7 +128,7 @@ loginForm.addEventListener('submit', (e)=>{
 
     signInWithEmailAndPassword(auth, email, password)
         .then((cred) =>{
-            console.log('user logge in', cred.user);
+            console.log('user logged in', cred.user);
         })
         .catch((err)=> {
             console.log(err.message)
@@ -137,7 +137,17 @@ loginForm.addEventListener('submit', (e)=>{
 })
 
 
-// subscribing to auth changes
-onAuthStateChanged(auth, (user) =>{  //when you login or logout, it fires a function
-    console.log('user status changed:',user)
+// subscribing to auth changes (its a good way to track the current authenticaton status)
+const unSubAuth = onAuthStateChanged(auth, (user) =>{  //when you login or logout, it fires a function
+    console.log('user status changed:', user)
+})
+
+
+// unsubscribe from subscrition (to unsubscribe from a lot of subscription)
+const unsubbutton = document.querySelector('.unsub');
+unsubbutton.addEventListener('click', ()=>{
+    console.log('unsubcribing');
+    unSubCol();   // return the function(an unsubscribing function)
+    unSubAuth();
+    unSubDoc();
 })
