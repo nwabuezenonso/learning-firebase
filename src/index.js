@@ -1,9 +1,9 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, onSnapshot, query, where ,
-    addDoc, deleteDoc, doc, orderBy, serverTimestamp, getDoc, updateDoc} from 'firebase/firestore'; 
-import dotenv from 'dotenv';
+import { getFirestore, collection, onSnapshot, query, where, addDoc, deleteDoc, doc, orderBy, serverTimestamp, getDoc, updateDoc} from 'firebase/firestore'; 
+import { getAuth} from 'firebase/auth';
+// import dotenv from 'dotenv';
 
-dotenv.config();
+// dotenv.config();
 
 const firebaseConfig = {
     apiKey: process.env.APIKEY,
@@ -19,7 +19,7 @@ initializeApp(firebaseConfig);
 
 // init service by invoking the function
 const db = getFirestore();
-
+const auth = getAuth();
 
 // collection ref ( get a reference to a specific collection)
 const colRef = collection(db, 'Books');
@@ -86,3 +86,8 @@ updateForm.addEventListener('submit', (e) => {
         updateForm.reset();
     })
 })
+
+
+
+// firebase authentication
+
